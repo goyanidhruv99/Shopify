@@ -1,0 +1,133 @@
+<div class="pdp-wrapper">
+    <div class="pdp-wrapper-block">
+        {% if product.images != blank %}
+          <div class="pdp-image-block">
+            <div class="pdp-inner">
+              {% for image in product.images %}
+                <div class="pdp-image-block-main">
+                    <div class="pdp-image-block-inner">
+                          <img src="{{ image | img_url: 'master' }}" alt="{{ image.alt | escape }}" />
+                    </div>
+                </div>
+              {% endfor %}
+            </div>
+            <div class="product-thumb  pdp-no-slider">
+                <div class="slider-nav">
+                  {% for image in product.images %}
+                    {% if forloop.index > 1 %}
+                    <div class="pdp-image-thumb">
+                        <div class="pdp-thumb">
+                            <img src="{{ image | img_url: 'master' }}" alt="{{ image.alt | escape }}" />
+                        </div>
+                    </div>
+                    {% endif %}
+                  {% endfor %}
+                </div>
+            </div>
+          </div>
+        {% endif %}
+        <div class="pdp-dec-block">
+            <div class="pdp-name">
+                {{ product.title }}
+                <span class="sub">250lb</span>
+            </div>
+            {% if product.tags != blank %}
+              <div class="pdp-sub-name">
+                  {% for tag in product.tags %}
+                    {% if tag contains "__flavour__" %}
+                      <p>{{ tag | replace: '__flavour__', '' | replace: '_', ' ' | replace: '-', ', ' }}</p>
+                    {% endif %}
+                  {% endfor %}
+              </div>
+            {% endif %}
+            <div class="pdp-dec-pg">
+                {{ product.description }}
+            </div>
+            {% form 'product', product %}
+              {% assign current_variant = product.selected_or_first_available_variant %}
+
+              <div class="pdp-radio-wrapper">
+                  <div class="pdp-custome-radio-group">
+                      {% for variant in product.variants %}
+                        <div class="custome-radio {% if current_variant.id ==  variant.id %} active {% endif %}">
+                          <input type="radio" id = "{{ variant.title }}" name="size" value="{{ variant.id }}" {% if current_variant.id ==  variant.id %} checked {% endif %} > 
+                          <label for="{{ variant.title }}">{{ variant.title }}</label> 
+                        </div>
+                      {% endfor %}
+                  </div>
+              </div>
+              <div class="pdp-add-to-cart-wrapper">
+                  <label class="pdp-add-to-cart-rs-label">Quantity</label>
+                  <div class="input-spinner">
+                      <button class="button-minus" data-field="quantity">
+                          <svg width="11" height="2" viewBox="0 0 11 2" fill="none"
+                              xmlns="http://www.w3.org/2000/svg">
+                              <path d="M0 1H11" stroke="#C05826" />
+                          </svg>
+                      </button>
+                      <input type="number" step="1" max="" value="1" name="quantity" class="quantity-field">
+                      <input type="hidden" name="id" value="{{ current_variant.id }}" />
+                      <button class="button-plus" data-field="quantity">
+                          <svg width="11" height="12" viewBox="0 0 11 12" fill="none"
+                              xmlns="http://www.w3.org/2000/svg">
+                              <path d="M0 6H11" stroke="#C05826" />
+                              <path d="M5.5 0.5V11.5" stroke="#C05826" />
+                          </svg>
+                      </button>
+                  </div>
+                  <div class="pdp-button-wrap">
+                      <button class="add-to-cart-btn" type="submit" value="Add To Cart">Add to Cart</button>
+                      {% comment %}
+                      <div class="button-devider">
+                          OR
+                      </div>
+                      <a class="bye-btn">
+                          Buy with
+                          <svg width="19" height="23" viewBox="0 0 19 23" fill="none"
+                              xmlns="http://www.w3.org/2000/svg">
+                              <path fill-rule="evenodd" clip-rule="evenodd"
+                                  d="M10.7525 1.69625C12.3105 0.0330724 14.1008 -0.0431147 14.1505 0.01151C14.2002 0.0675722 14.4823 1.57119 13.0865 3.50462C11.6908 5.43805 9.5043 5.36186 9.46922 5.31298C9.43414 5.26411 9.19445 3.35799 10.7525 1.69625ZM18.7867 16.7281C18.9084 16.8082 18.9841 16.858 18.9941 16.8776C19.0409 16.971 18.8099 17.5849 18.3028 18.7205C16.9669 21.1628 15.8225 22.3674 15.0319 22.6851C14.2412 23.0013 13.4519 23.1192 12.6174 22.836C11.5636 22.2826 10.5347 22.0799 10.0129 22.0612C9.48968 22.0425 8.16553 22.297 7.43183 22.7397C6.51983 23.1983 5.20444 22.9769 4.73821 22.6434C4.27198 22.3099 3.15536 21.3281 2.31351 19.9136C1.41081 18.7188 0.862624 17.1023 0.504435 16.046C0.486827 15.994 0.469679 15.9435 0.45297 15.8944C0.0963533 14.845 -0.402032 11.4698 0.550893 9.3394C1.50382 7.2076 2.86598 6.40548 3.58213 6.12373C4.29975 5.84054 5.30237 5.47254 6.24798 5.65223C7.08921 5.76926 7.8968 6.07126 8.52163 6.30491C8.99431 6.48167 9.36239 6.61931 9.5613 6.60816C9.84417 6.59227 10.585 6.34193 11.2865 6.1049C11.7266 5.95616 12.1513 5.81265 12.4376 5.73561C13.3985 5.47696 13.9386 5.53504 14.1747 5.56043C14.2154 5.56481 14.2471 5.56822 14.2704 5.56886C15.0695 5.60768 15.8498 5.82078 16.5548 6.19273C17.515 6.72029 18.4212 7.76247 18.3876 7.85591C18.383 7.86857 18.3398 7.89535 18.2677 7.94003C17.808 8.22504 16.1737 9.23825 15.9059 11.9585C15.64 14.6569 18.0518 16.2444 18.7867 16.7281Z"
+                                  fill="white" />
+                          </svg>
+                          Pay
+                      </a>
+                      {% endcomment %}
+                  </div>
+              </div>
+            {% endform %}
+            {% if section.settings.shipping_text %}
+              <div class="pdp-shipping">
+                  {{ section.settings.shipping_text }}
+              </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<script>
+  $(document).ready(function(){
+    $('.pdp-dec-block .custome-radio label').on('click', function() {
+     var variantId = $(this).siblings("input").val();
+      $(".input-spinner input[name=id]").attr('value', variantId);
+    });
+  });
+</script>
+
+{% schema %}
+  {
+    "name": "Product Page",
+    "settings": [
+      {
+        "type": "text",
+        "id": "shipping_text",
+        "label": " Shipping Calculated Text"
+      }
+    ]
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

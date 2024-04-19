@@ -1,0 +1,146 @@
+<header class="site-header">
+    <div class="container">
+        <div class="header-wrapper">
+            <div class="menu-col">
+                <div class="menu-icon">
+                    <svg width="21" height="18" viewBox="0 0 21 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <g id="icon menu">
+                            <path id="Path 3" d="M0 17H21" stroke="black" stroke-width="2" />
+                            <path id="Path 3 Copy" d="M0 9H10" stroke="black" stroke-width="2" />
+                            <path id="Path 3 Copy 2" d="M0 1H21" stroke="black" stroke-width="2" />
+                        </g>
+                    </svg>
+                </div>
+            </div>
+            <div class="site-logo">
+                <a href="{{ shop.url }}">
+                  {% if section.settings.main_logo != blank %}
+                    <img src="{{ section.settings.main_logo | img_url: 'master' }}" loading="lazy" alt="{{ shop.name }}" class="default-logo" />
+                  {% else %}
+                    <h3 class="default-logo">{{ shop.name }}</h3>
+                  {% endif %}
+                  
+                  {% if section.settings.scroll_logo != blank %}
+                    <img src="{{ section.settings.scroll_logo | img_url: 'master' }}" loading="lazy" alt="{{ shop.name }}" class="scroll-logo" />
+                  {% else %}
+                    <h3 class="scroll-logo">{{ shop.name }}</h3>
+                  {% endif %}
+                </a>
+            </div>
+            <div class="header-right">
+                <ul>
+                  {% if section.settings.cart_icon %}
+                    <li>
+                        <a href="/cart">
+                            <svg width="25" height="22" viewBox="0 0 25 22" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <g id="icon cart">
+                                    <path id="Path 3" d="M7 13H25" stroke="black" stroke-width="2" />
+                                    <circle id="Oval" cx="10" cy="19" r="2" stroke="black" stroke-width="2" />
+                                    <circle id="Oval Copy" cx="22" cy="19" r="2" stroke="black" stroke-width="2" />
+                                    <path id="Path 3 Copy" d="M7 9H25" stroke="black" stroke-width="2" />
+                                    <path id="Path 3 Copy 2" d="M7 5H25" stroke="black" stroke-width="2" />
+                                    <path id="Path 2" d="M0 1H4V14" stroke="black" stroke-width="2" />
+                                </g>
+                            </svg>
+                           {% assign totalQty = 0 %}
+                           {%- for item in cart.items -%}
+                             {% assign totalQty = totalQty | plus: item.quantity %}
+                           {%- endfor -%}
+                            <span class="cart-counter">
+                              {{ totalQty }}
+                            </span>
+                        </a>
+                    </li>
+                  {% endif %}
+                  {% if section.settings.account_icon and shop.customer_accounts_enabled %}
+                    <li>
+                        <a href="{{ routes.account_url }}">
+                            <svg width="23" height="21" viewBox="0 0 23 21" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <g id="icon sign up">
+                                    <path id="Path 5" d="M13.1154 20H1V16.1538L9.88461 13.0769" stroke="black"
+                                        stroke-width="2" />
+                                    <path id="Path 5 Copy" d="M9.88461 20H22V16.1538L13.1154 13.0769" stroke="black"
+                                        stroke-width="2" />
+                                    <rect id="Rectangle" x="8.46143" y="1" width="6.07692" height="8.76923"
+                                        rx="3.03846" stroke="black" stroke-width="2" />
+                                </g>
+                            </svg>
+                        </a>
+                    </li>
+                  {% endif %}
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!--menu bar start here-->
+    <nav>
+        <ul class="menu">
+          {% comment %}
+          {%- for link in linklists.main-menu.links -%}
+            <li data-text="Home">
+              <a href="{{ link.url }}">{{ link.title }}</a>
+            </li>
+          {% endfor %}
+          {% endcomment %}
+          {% for link in linklists[section.settings.navigation_menu].links -%}
+            <li data-text="Home">
+              <a href="{{ link.url }}">{{ link.title }}</a>
+            </li>
+          {% endfor %}
+        </ul>
+        <div class="close-button">
+            <svg width="33" height="33" viewBox="0 0 33 33" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <g id="icon menu copy">
+                    <path id="Path 3" d="M8.36813 8.3682L24.6316 24.6317" stroke="black" stroke-width="2" />
+                    <path id="Path 3 Copy 3" d="M24.6314 8.3682L8.36793 24.6317" stroke="black" stroke-width="2" />
+                </g>
+            </svg>
+        </div>
+    </nav>
+    <!--menu bar end here-->
+</header>
+
+{% schema %}
+  {
+    "name": "Header",
+    "settings": [
+      {
+        "type": "image_picker",
+        "id": "main_logo",
+        "label": "Main Logo"
+      },
+      {
+        "type": "image_picker",
+        "id": "scroll_logo",
+        "label": "Scroll Logo"
+      },
+      {
+        "type": "checkbox",
+        "id": "cart_icon",
+        "label": "Cart",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "account_icon",
+        "label": "Account",
+        "default": true
+      },
+      {
+        "type": "link_list",
+        "id": "navigation_menu",
+        "label": "Choose Menu",
+        "default": "main-menu"
+      }
+    ]
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

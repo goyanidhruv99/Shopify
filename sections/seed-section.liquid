@@ -1,0 +1,176 @@
+<section sn="seed-section" class="bs-fourth-section-wrapper home-fourth">
+    <div class="baba-seed-in-world-wrapp">
+        <div class="map-img-row">
+            <div class="map-row">
+                {% if section.settings.map_image != blank %}
+                  <img src="{{ section.settings.map_image | img_url: 'master' }}" loading="lazy" alt="{{ section.settings.map_image.alt }}" class="map-img" />
+                {% endif %}
+                {% for block in section.blocks %}
+                  <div class="map-pointer {% if forloop.first %}active{% endif %} mp{{forloop.index}}">
+                      {% if block.settings.user_image != blank %}
+                        <div class="mp-img">
+                            <img src="{{ block.settings.user_image | img_url: 'master' }}" loading="lazy" alt="{{ block.settings.user_image.alt }}" />
+                        </div>
+                      {% endif %}
+                      <div class="mp-tooltip">
+                          <div class="mp-tooltip-cover">
+                              <div class="mp-close">
+                                  <svg width="33" height="33" viewBox="0 0 33 33" fill="none"
+                                      xmlns="http://www.w3.org/2000/svg">
+                                      <g id="icon menu copy">
+                                          <path id="Path 3" d="M8.36813 8.36808L24.6316 24.6315" stroke="black"
+                                              stroke-width="2" />
+                                          <path id="Path 3 Copy 3" d="M24.6314 8.36808L8.36793 24.6315"
+                                              stroke="black" stroke-width="2" />
+                                      </g>
+                                  </svg>
+                              </div>
+                              <div class="mp-tooltip-inner">
+                                  <div class="mp-logo-stamp">
+                                      {% if section.settings.stamp_logo_desk != blank %}
+                                        <img src="{{ section.settings.stamp_logo_desk | img_url: 'master' }}" loading="lazy" alt="{{ section.settings.stamp_logo_desk.alt }}" class="desk-only" />
+                                      {% endif %}
+                                      {% if section.settings.stamp_logo_mob != blank %}
+                                        <img src="{{ section.settings.stamp_logo_mob | img_url: 'master' }}" loading="lazy" alt="{{ section.settings.stamp_logo_mob.alt }}" class="mobile-only" />
+                                      {% else %}
+                                        <img src="{{ section.settings.stamp_logo_desk | img_url: 'master' }}" loading="lazy" alt="{{ section.settings.stamp_logo_desk.alt }}" class="mobile-only" />
+                                      {% endif %}
+                                  </div>
+                                  <div class="mp-tooltip-media">
+                                      <div class="mp-tooltip-media-inner">
+                                          <div class="v-play-btn">
+                                              <svg xmlns="http://www.w3.org/2000/svg" width="60" height="60"
+                                                  viewBox="0 0 60 60" fill="none">
+                                                  <circle cx="30" cy="30" r="30" fill="#C05826" />
+                                                  <path fill-rule="evenodd" clip-rule="evenodd"
+                                                      d="M39.5 29.9L25.5 39L25.5 20.8L39.5 29.9Z" fill="white" />
+                                              </svg>
+                                          </div>
+                                          {% if block.settings.user_video != blank %}
+                                            <video playsinline="playsinline" controls="false" muted="muted" preload="metadata" aria-label="Bling Silver" {% if section.settings.stamp_logo_desk != blank %} poster="{{ section.settings.stamp_logo_desk | img_url: 'master' }}" {% endif %}>
+                                                <source src="{{ block.settings.user_video }}" type="video/mp4">
+                                            </video>
+                                          {% endif %}
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                          <div class="mp-tooltip-head flex justify-between">
+                              {% if block.settings.user_name != blank %}
+                                <div class="mp-tooltip-title">{{ block.settings.user_name }}</div>
+                              {% endif %}
+                              {% if block.settings.user_location != blank %}
+                                <div class="mp-tooltip-lbl">{{ block.settings.user_location }}</div>
+                              {% endif %}
+                          </div>
+                      </div>
+                  </div>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="map-content-row">
+            <div class="ds-section-title">
+                {% if section.settings.heading != blank %}
+                  <h2 class="h1">{{ section.settings.heading }}</h2>
+                {% endif %}
+                {% if section.settings.description != blank %}
+                  <p>{{ section.settings.description }}</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+  $( document ).ready(function() {
+      $(".map-pointer .mp-img").on("click", function () {
+          if ($(this).parents(".map-pointer").hasClass("active")) {
+              $(this).parents(".map-pointer").removeClass("active");
+          } else {
+              $(".map-pointer").removeClass("active");
+              $(this).parents(".map-pointer").addClass("active");
+          }
+       });
+      $(".mp-close").on("click", function () {
+          $(this).parents(".map-pointer").removeClass("active");
+       });
+
+      $('.v-play-btn').click(function(){
+        $(this).addClass("active");
+        $(this).siblings('video').trigger('play');
+      });
+  });
+</script>
+
+{% schema %}
+  {
+    "name": "Seed Section",
+    "blocks": [
+      {
+        "type": "Users",
+        "name": "Users",
+        "settings": [
+          {
+            "type": "image_picker",
+            "id": "user_image",
+            "label": "User Image"
+          },
+          {
+            "type": "url",
+            "id": "user_video",
+            "label": "User Video"
+          },
+          {
+            "type": "text",
+            "id": "user_name",
+            "label": "User Name"
+          },
+          {
+            "type": "text",
+            "id": "user_location",
+            "label": "User Location"
+          }
+        ]
+      }
+    ],
+    "settings": [
+      {
+        "type": "text",
+        "id": "heading",
+        "label": "Main Heading"
+      },
+      {
+        "type": "textarea",
+        "id": "description",
+        "label": "Description"
+      },
+      {
+        "type": "image_picker",
+        "id": "map_image",
+        "label": "Map Image"
+      },
+      {
+        "type": "image_picker",
+        "id": "stamp_logo_desk",
+        "label": "Stamp Logo Desktop"
+      },
+      {
+        "type": "image_picker",
+        "id": "stamp_logo_mob",
+        "label": "Stamp Logo Mobile"
+      }
+    ],
+    "presets": [
+      {
+        "name": "Seed Section"
+      }
+    ]
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+  
+{% endjavascript %}

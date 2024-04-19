@@ -1,0 +1,70 @@
+<section sn="about-section" class="bs-fifth-section-wrapper home-fifth">
+    {% if section.settings.banner_image != blank %}
+      <img src="{{ section.settings.banner_image | img_url: 'master' }}" loading="lazy" alt="{{ section.settings.banner_image.alt }}" />
+    {% endif %}
+    <div class="about-banner-content">
+        <div class="container-lg">
+            <div class="about-banner-content-inner">
+                {% if section.settings.heading != blank %}
+                  <div class="bs-section-title">
+                      <h2 class="h1">{{ section.settings.heading }}</h2>
+                  </div>
+                {% endif %}
+                {% if section.settings.description != blank %}
+                  <p>{{ section.settings.description }}</p>
+                {% endif %}
+                {% if section.settings.button != blank %}
+                  <a class="link-btn">
+                      <svg width="19" height="14" viewBox="0 0 19 14" fill="none"
+                          xmlns="http://www.w3.org/2000/svg">
+                          <g id="arrow">
+                              <path id="Path 8" d="M0 7H18" stroke="#C05826"></path>
+                              <path id="Path 9" d="M12 1L18 7L12 13" stroke="#C05826"></path>
+                          </g>
+                      </svg>
+                      {{ section.settings.button }}
+                  </a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</section>
+
+{% schema %}
+  {
+    "name": "About Section",
+    "settings": [
+      {
+        "type": "text",
+        "id": "heading",
+        "label": "Main Heading"
+      },
+      {
+        "type": "textarea",
+        "id": "description",
+        "label": "Description"
+      },
+      {
+        "type": "text",
+        "id": "button",
+        "label": "Button"
+      },
+      {
+        "type": "image_picker",
+        "id": "banner_image",
+        "label": "Banner Image"
+      }
+    ],
+    "presets": [
+      {
+        "name": "About Section"
+      }
+    ]
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

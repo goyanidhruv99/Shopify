@@ -1,0 +1,86 @@
+<div class="related-product" data-url="{{ routes.product_recommendations_url }}?section_id={{ section.id }}&product_id={{ product.id }}&limit=10&intent=related">
+    <div class="container">
+        {% if section.settings.heading != blank %}
+          <div class="related-pdp-title">
+            {{ section.settings.heading }}
+          </div>
+        {% endif %}
+        <div class="related-slider">
+            {% for product in recommendations.products %}
+              {% render "product-item", product.product: product %}
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+{% schema %}
+  {
+    "name": "Other Product Section",
+    "settings": [
+      {
+        "type": "text",
+        "id": "heading",
+        "label": "heading"
+      }
+    ],
+    "presets": [
+      {
+        "name": "Other Product Section"
+      }
+    ]
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+  const handleIntersection = (entries, observer) => {
+      if (!entries[0].isIntersecting) return;
+      observer.unobserve(productRecommendationsSection);
+      const url = productRecommendationsSection.dataset.url;
+      fetch(url)
+          .then(response => response.text())
+          .then(text => {
+              const html = document.createElement('div');
+              html.innerHTML = text;
+              const recommendations = html.querySelector('.related-product');
+              if (recommendations && recommendations.innerHTML.trim().length) {
+                  productRecommendationsSection.innerHTML = recommendations.innerHTML;
+                  document.querySelectorAll('.product-description').forEach(function (el) {
+                      el.style.display = 'none';
+                  });
+                  document.querySelectorAll('.sub').forEach(function (el) {
+                      el.style.display = 'none';
+                  });
+              }
+              setTimeout(function () {
+                  jQuery('.related-slider').slick({
+                      slidesToShow: 3,
+                      dots: true,
+                      arrows: false,
+                      centerMode: false,
+                      infinite: false,
+                      responsive: [{
+                          breakpoint: 1024,
+                          settings: {
+                              slidesToShow: 2,
+                              slidesToScroll: 1
+                          }
+                      },
+                      {
+                          breakpoint: 400,
+                          settings: {
+                              arrows: false,
+                              slidesToShow: 1,
+                              slidesToScroll: 1
+                          }
+                      }]
+                  });
+              }, 100);
+          })
+  };
+  const productRecommendationsSection = document.querySelector('.related-product');
+  const observer = new IntersectionObserver(handleIntersection, { rootMargin: '0px 0px 200px 0px' });
+  observer.observe(productRecommendationsSection);
+{% endjavascript %}

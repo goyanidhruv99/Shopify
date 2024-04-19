@@ -1,0 +1,30 @@
+<div class="login-wrapper">
+    <h1 class="h1">Create an Account</h1>
+    <div class="subtitle mb-60">lorem ipsum dummy text </div>
+    {% form 'create_customer' %}
+      {{ form.errors | default_errors }}
+      <div class="form-group half">
+          <label for="first-name">Frist Name</label>
+          <input type="text" name="customer[first_name]" placeholder="First Name" class="form-control">
+      </div>
+      <div class="form-group half">
+          <label for="last-name">Last Name</label>
+          <input type="text" name="customer[last_name]" placeholder="Last Name" class="form-control">
+      </div>
+      <div class="form-group">
+          <label for="email">Email</label>
+          <input type="email" name="customer[email]" placeholder="email Address" class="form-control">
+      </div>
+      <div class="form-group">
+          <label for="password">Password</label>
+          <input class="form-control" name="customer[password]" type="password" placeholder="Password">
+      </div>
+      <div class="button-group mt-10">
+          <button class="add-to-cart-btn" type="submit">Log In</button>
+      </div>
+      <div class="form-links mt-20">
+          <a href="/account/login">Login</a>
+          <a href="forgot-password.html">Forgot Password?</a>
+      </div>
+    {% endform %}
+</div>

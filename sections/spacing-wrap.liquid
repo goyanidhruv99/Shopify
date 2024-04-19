@@ -1,0 +1,93 @@
+<div sn="spacing-wrap" class="spacing-wrap {{ section.settings.spacing_wrap }}">
+    <div class="wave-svg">
+        {% if section.settings.spacing_wrap == 'wh1' %}
+          <svg width="1920" height="293" viewBox="0 0 1920 293" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <g clip-path="url(#clips1)">
+                  <path
+                      d="M-175.155 203.111C-175.155 203.111 -37.7015 -32.6399 225.155 49.2597C488.012 131.159 754.768 157.075 1124.59 49.6584C1494.41 -57.7585 1876.08 27.2395 2094.41 203.111"
+                      stroke="#C05826" stroke-width="2" />
+                  <path
+                      d="M-240.622 331.167C-240.622 331.167 -115.695 88.5451 151.088 156.576C417.871 224.606 685.617 236.525 1049.31 109.901C1413 -16.7236 1798.6 48.1826 2025.83 212.387"
+                      stroke="#B1B1B1" stroke-width="2" />
+                  <path
+                      d="M-157.454 414.336C-157.454 414.336 -32.527 171.714 234.256 239.745C501.039 307.775 768.785 319.695 1132.48 193.07C1496.17 66.4457 1881.77 131.352 2109 295.556"
+                      stroke="#DEDEDE" stroke-width="2" />
+              </g>
+              <defs>
+                  <clipPath id="clips1">
+                      <rect width="1920" height="293" fill="white" />
+                  </clipPath>
+              </defs>
+          </svg>
+        {% elsif section.settings.spacing_wrap == 'wh2' %}
+          <svg xmlns="http://www.w3.org/2000/svg" width="1440" height="833" viewBox="0 0 1440 833" fill="none">
+              <path
+                  d="M-186.061 38.5863C-186.061 38.5863 34.0343 -67.6033 188.166 124.823C342.297 317.25 641.875 377.144 959.4 323.722C1276.93 270.301 1622.47 432.89 1696.48 672.781"
+                  stroke="#C05826" stroke-width="2" />
+              <path
+                  d="M-197.276 44.9794C-197.276 44.9794 28.0761 -49.5458 171.925 150.684C315.775 350.913 611.807 426.404 931.693 389.673C1251.58 352.943 1588.14 533.394 1649.49 776.829"
+                  stroke="#B1B1B1" stroke-width="2" />
+              <path
+                  d="M-204 65.5646C-204 65.5646 21.3517 -28.9606 165.201 171.269C309.05 371.499 558.167 530.722 878.053 493.992C1197.94 457.261 1418.14 588.354 1479.5 831.79"
+                  stroke="#DEDEDE" stroke-width="2" />
+          </svg>
+        {% elsif section.settings.spacing_wrap == 'wh3' %}
+          <svg width="1920" height="315" viewBox="0 0 1920 315" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <g clip-path="url(#clips3)">
+                  <path
+                      d="M-303.438 300.532C-303.438 300.532 70.0121 -184.212 739.008 82.8921C1408 349.996 2077 -7.37905 2077 -7.37905"
+                      stroke="#C05826" stroke-width="2" />
+                  <path
+                      d="M-390 411.825C-390 411.825 147.917 -53.1333 816.913 213.97C1485.91 481.074 1795.06 124.936 1795.06 124.936"
+                      stroke="#DEDEDE" stroke-width="2" />
+                  <path
+                      d="M-390 387.093C-390 387.093 198.618 -114.963 867.614 152.141C1536.61 419.244 1990.44 79.1817 1990.44 79.1817"
+                      stroke="#B1B1B1" stroke-width="2" />
+              </g>
+              <defs>
+                  <clipPath id="clips3">
+                      <rect width="1920" height="315" fill="white" />
+                  </clipPath>
+              </defs>
+          </svg>
+        {% endif %}
+    </div>
+</div>
+
+{% schema %}
+  {
+    "name": "Spacing Wrap",
+    "settings": [
+      {
+        "type": "select",
+        "id": "spacing_wrap",
+        "label": "Spacing Wrap",
+        "options": [
+          {
+            "label": "Style 1",
+            "value": "wh1"
+          },
+          {
+            "label": "Style 2",
+            "value": "wh2"
+          },
+          {
+            "label": "Style 3",
+            "value": "wh3"
+          }
+        ]
+      }
+    ],
+    "presets": [
+      {
+        "name": "Spacing Wrap"
+      }
+    ]
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

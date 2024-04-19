@@ -1,0 +1,111 @@
+{% for i in (1..5) %}
+  {% for product in collection.products %}
+  {{ product.title }}
+{% else %}
+  This collection is empty.
+{% endfor %}
+{% endfor %}
+<br>
+{% echo product.title %}
+
+{% liquid
+  echo product.price | money
+%}
+<br>
+{% raw %}
+  {{ 2 | plus: 2 }} equals 4.
+{% endraw %}
+<br>
+{{ 'Log in' | customer_login_link }}
+<br>
+{{ 'Log out' | customer_logout_link }}
+<br>
+{{ 'Create an account' | customer_register_link }}
+<br>
+{{ shop | login_button: action: 'follow' }}
+<br>
+
+{% assign fruits = "apples, oranges" | split: ", " %}
+{% assign vegetables = "broccoli, carrots" | split: ", " %}
+{% assign plants = fruits | concat: vegetables %}
+{{ plants | join: ", " }}
+
+<br>
+{{ plants | join: ', ' }}
+
+<br>
+
+{{ plants | first }}
+
+<br>
+
+{{ plants[2] }}
+
+<br>
+
+{{ plants | last }}
+
+<br>
+{% assign collection_titles = collections | map: 'title' %}
+{{ collection_titles | join: ', ' }}
+
+<br>
+
+{% assign my_array = "a, b, c, d" | split: ", " %}
+{{ my_array | reverse | join: ", " }}
+
+<br>
+
+{{ 'is this character string?' | size }}
+
+<br>
+
+{% assign products = collection.products | sort: 'title' %}
+{% for product in products %}
+   {{ product.title }}
+{% endfor %}
+
+<br>
+
+{% assign fruits = "orange apple banana apple orange" %}
+{{ fruits | split: ' ' | uniq | join: ' ' | highlight: 'apple' }}
+
+<br>
+
+{{ '#fff00f' | brightness_difference: '#0b72ab' }}
+
+{{ '#7ab55c' | color_darken: 30 }}
+
+{{ 'red-and-black-bramble-berries.jpg' | asset_img_url }}
+
+<a href="{{ 'custom.js' | asset_url }}">click to me</a>
+
+
+
+
+<img src="{{ 'enjoythesmallmoments_3.jpg?v=1703841795' | file_img_url }}">
+
+
+{{ product.selected_variant.url | default: product.url }}
+
+
+<br>
+
+<style>
+  {{ settings.heading_font | font_face }}
+</style>
+<br>
+
+
+{% schema %}
+  {
+    "name": "About Us",
+    "settings": []
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

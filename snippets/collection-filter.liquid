@@ -1,0 +1,177 @@
+<section class="collection-filter-section">
+  <div class="container">
+    <form class="collection-filter-form">
+      <div class="sort-by-wrp">
+        <div class="sort-by-title">sort by</div>
+        <ul class="sort-by-list">
+          {% for option in collection.sort_options %}
+            <li class="{% if option.value == collection.sort_by %}selected{% elsif option.value == 'manual' %}selected{% endif %}" data-value="{{ option.value }}">
+              <input type="radio" name="sort-by" id="sort-by" value="{{ option.value }}" {% if option.value == collection.sort_by %}checked{% elsif option.value == 'manual' %}checked{% endif %}>
+              <label for="sort-by">{{ option.name }}</label>
+            </li>
+          {% endfor %}
+          <div class="collection-filter-btn">
+            <input type="submit" value="Apply">
+          </div>
+        </ul>
+      </div>
+      {% for filter in collection.filters %}
+        <ul>
+          <li>
+            <div class="collection-filter-label">{{ filter.label }} {% if filter.active_values.size > 0 %} <span>({{ filter.active_values.size }})</span> {% endif %}</div>
+            <div class="filter-dropdown">
+              {% case filter.type %}
+                {% when 'list' %}
+                <ul class="list-{{ filter.label }}">
+                  {% for filter_value in filter.values %}
+                    <li>
+                      <label for="{{ filter.label }}-{{ forloop.index }}">
+                        <input type="checkbox" name="{{ filter_value.param_name }}" value="{{ filter_value.value }}" id="{{ filter.label }}-{{ forloop.index }}" {% if filter_value.active %}checked{% endif %} {% if filter_value.count == 0 and filter_value.active == false %}disabled{% endif %}>
+                        {{ filter_value.label }}
+                      </label>
+                    </li>
+                  {% endfor %}
+                </ul>
+                {% when 'price_range' %}
+                <div class="collection-filter-price">
+                  <div class="filter-price-range">
+                    <label for="{{ filter.min_value.label }}">
+                      <div class="filter-price-currency">{{ cart.currency.symbol }}</div>
+                      <input type="number" name="{{ filter.min_value.param_name }}" {% if filter.min_value.value %}value="{{ filter.min_value.value | money_without_currency | replace: ',', '' }}"{% endif %} placeholder="0" id="{{ filter.min_value.label }}" min="0" max="{{ filter.range_max | money_without_currency | replace: ',', '' }}">
+                    </label>
+                  </div>
+                  <div class="filter-price-range">
+                    <label for="{{ filter.max_value.label }}">
+                      <div class="filter-price-currency">{{ cart.currency.symbol }}</div>
+                      <input type="number" name="{{ filter.max_value.param_name }}" {% if filter.max_value.value %}value="{{ filter.max_value.value | money_without_currency | replace: ',', '' }}"{% endif %} placeholder="{{ filter.range_max | money_without_currency | replace: ',', '' }}" id="{{ filter.max_value.label }}" min="0" max="{{ filter.range_max | money_without_currency | replace: ',', '' }}">
+                    </label>
+                  </div>
+                </div>
+              {% endcase %}
+              <a class="reset-all" href="{{ collection.url }}?sort_by={{ collection.sort_by }}">Reset all</a>
+              <div class="collection-filter-btn">
+                <input type="submit" value="Apply">
+              </div>
+            </div>
+          </li>
+        </ul>
+      {% endfor %}
+    </form>
+  </div>
+</section>
+
+<script>
+  $('.collection-filter-label').on("click", function () {
+    $(".sort-by-list").removeClass("active");
+     if ($(this).next().hasClass("active")) {
+       $(".filter-dropdown").removeClass("active");
+     }else{
+       $(".filter-dropdown").removeClass("active");
+       $(this).next(".filter-dropdown").addClass("active");
+     }
+  });
+  $('.sort-by-title').on("click", function () {
+    $(".filter-dropdown").removeClass("active");
+    $(this).next(".sort-by-list").toggleClass("active");
+  });
+</script>
+
+<style>
+    .collection-filter-form {
+        display: flex;
+        flex-wrap: wrap;
+        align-content: center;
+        margin: 0 -10px;
+    }
+
+    .sort-by-list,
+    .filter-dropdown {
+        position: absolute;
+        top: 100%;
+        left: 10px;
+        width: max-content;
+        background-color: #fff;
+        padding: 20px;
+        margin-top: 10px;
+        box-shadow: 0 0 3px #00000021;
+        z-index: 1;
+        opacity: 0;
+        visibility: hidden;
+    }
+
+    .sort-by-list.active,
+    .filter-dropdown.active {
+        opacity: 1;
+        visibility: visible;
+    }
+
+    .collection-filter-form > * {
+      padding: 0 10px;
+      position: relative;
+    }
+
+    .sort-by-title,
+    .collection-filter-label {
+        cursor: pointer;
+    }
+    
+    .sort-by-list li {
+      padding: 5px 0;
+    }
+
+    .sort-by-list li label,
+    .list-Availability label {
+      font-size: 14px;
+      line-height: 1;
+    }
+
+    .collection-filter-btn input {
+      width: 100%;
+      padding: 10px;
+      background: var(--c2);
+      border-radius: 10px;
+      color: #fff;
+      line-height: 1;
+      font-family: var(--first-font);
+      font-weight: 700;
+      font-size: 12px;
+      text-align: center;
+      outline: none;
+      border: none;
+      box-shadow: none;
+    }
+  
+    .collection-filter-btn {
+      margin-top: 10px;
+    }
+    
+    .filter-price-range label {
+      display: flex;
+      flex-wrap: wrap;
+      align-content: center;
+    }
+  
+    .filter-price-range label .filter-price-currency {
+      font-size: 14px;
+      color: var(--c2);
+      padding-right: 10px;
+    }
+  
+    .filter-price-range label input {
+      border: 1px solid var(--c2);
+      padding: 5px 10px;
+      border-radius: 5px;
+    }
+  
+    .filter-price-range:not(:last-of-type) {
+      margin-bottom: 10px;
+    }
+
+    .reset-all {
+      color: var(--c2);
+      font-size: 14px;
+      text-decoration: underline;
+      margin-top: 10px;
+      display: block;
+    }
+</style>

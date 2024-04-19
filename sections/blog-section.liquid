@@ -1,0 +1,67 @@
+<section sn="blog-section" class="bs-sixth-section-wrapper home-sixth">
+    <div class="container-lg">
+        {% for article in blogs[section.settings.choose_blog].articles %}
+          <div class="blog-row blog-row-{{forloop.index}} flex {% cycle '', 'flex-reverse align-end' %}">
+              <div class="blog-left-col">
+                  <div class="blog-media-wrap">
+                      {{ article.excerpt }}
+                  </div>
+                  {% if forloop.first %}
+                    <div class="blog-media-content">
+                        <div class="date">{{ article.created_at | date: "%dth %b" | downcase }}</div>
+                        <h3><a href="{{ article.url }}">{{ article.title }}</a></h3>
+                        {{ article.content }}
+                    </div>
+                  {% endif %}
+              </div>
+              <div class="blog-right-col">
+                  <div class="blog-right-col-inner">
+                      {% if forloop.first %}
+                        {% if section.settings.heading != blank %}
+                          <div class="bs-section-title">
+                              <h2>{{ section.settings.heading }}</h2>
+                          </div>
+                        {% endif %}
+                      {% endif %}
+                      {% unless forloop.first %}
+                        <div class="blog-media-content">
+                            <div class="date">{{ article.created_at | date: "%dth %b" | downcase }}</div>
+                            <h3><a href="{{ article.url }}">{{ article.title }}</a></h3>
+                            {{ article.content }}
+                        </div>
+                      {% endunless %}
+                  </div>
+              </div>
+          </div>
+        {% endfor %}
+    </div>
+</section>
+
+{% schema %}
+  {
+    "name": "Blog Section",
+    "settings": [
+      {
+        "type": "blog",
+        "id": "choose_blog",
+        "label": "Choose Blog"
+      },
+      {
+        "type": "text",
+        "id": "heading",
+        "label": "Main Heading"
+      }
+    ],
+    "presets": [
+      {
+        "name": "Blog Section"
+      }
+    ]
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

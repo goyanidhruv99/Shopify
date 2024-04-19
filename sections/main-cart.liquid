@@ -1,0 +1,129 @@
+<section class="cart-page-wrapper">
+    <div class="container">
+        {% if section.settings.heading %}
+          <h3>{{ section.settings.heading }}</h3>
+        {% endif %}
+        <!-- <div class="subtitle mb-60">Your best clean continues. Welcome back! </div> -->
+        <!--cart table start here-->
+        {% if cart.item_count != 0 %} 
+          <form action="/cart" method="post" class="custom" cart-total={{ cart.total_price }} >
+            <div class="cart-tbl">
+              <div class="cart-table-title">
+                  <p class="subheader2 title-product">Product</p>
+                  <p class="subheader2 title-price">Price</p>
+                  <p class="subheader2 title-qty">Quantity</p>
+                  <p class="subheader2 title-total">Total</p>
+              </div>
+              {% for item in cart.items %}
+                <div class="cart-table-content-list">
+                    <div class="cart-table-content">
+                        <div class="cart-table-image">
+                          {% if item.product.featured_image != blank %}
+                            <a href="{{ item.product.url }}" title="Classic 1lb">
+                                <img class="cart__image" src="{{ item.product.featured_image | img_url: 'master' }}" alt="{{ item.product.featured_image.alt }}">
+                            </a>
+                          {% endif %}
+                        </div>
+                        <div class="cart-subcontent">
+                            {% if item.product.title != blank %}
+                              <p>
+                                  <a href="{{ item.product.url }}?variant={{ item.variant.id }}">{{ item.product.title }}</a>
+                              </p>
+                            {% endif %}
+                            <div class="cart-table-variant">{{ item.variant.title }}</div>
+                            {% if item.product.tags != blank %}
+                              <div class="cart-table-variant">
+                                {% for tag in item.product.tags %}
+                                  {% if tag contains "__flavour__" %}
+                                    {{ tag | replace: '__flavour__', '' | replace: '_', ' ' | replace: '-', ', ' }}
+                                  {% endif %}
+                                {% endfor %}
+                              </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="cart-table-price">
+                        <span class="money button">{{ item.price | money }}</span>
+                    </div>
+                    <div class="cart-table-qty qty-selector">
+                        <div class="cart-subcontent mobile_content">
+                            <p>
+                                <a href="{{ item.product.url }}">{{ item.product.title }}</a>
+                            </p>
+                            <div class="cart-table-variant body mt-xxxs">
+                              {% for tag in item.product.tags %}
+                                {% if tag contains "__flavour__" %}
+                                  {{ tag | replace: '__flavour__', '' | replace: '_', ' ' | replace: '-', ', ' }}
+                                {% endif %}
+                              {% endfor %}
+                            </div>
+                        </div>
+                        <div class="qtyAdjust qty-selector-inner">
+                            <div class="qty-input-group res-qty">
+                                <div class="incremant-spinner">
+                                    <div class="input-spinner">
+                                        <a href="{{ routes.cart_change_url }}?line={{ forloop.index }}&quantity={{ item.quantity | minus: 1 }}" class="button-minus" data-field="quantity">
+                                            <svg width="11" height="2" viewBox="0 0 11 2" fill="none"
+                                                xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M0 1H11" stroke="#C05826"></path>
+                                            </svg>
+                                        </a>
+                                        <input type="number" name="updates[]" id="updates_{{ item.key }}" step="1" max="" value="{{item.quantity}}" name="quantity" class="quantity-field" pattern="[0-9]">
+                                        <a href="{{ routes.cart_change_url }}?line={{ forloop.index }}&quantity={{ item.quantity | plus: 1 }}" class="button-plus" data-field="quantity">
+                                            <svg width="11" height="12" viewBox="0 0 11 12" fill="none"
+                                                xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M0 6H11" stroke="#C05826"></path>
+                                                <path d="M5.5 0.5V11.5" stroke="#C05826"></path>
+                                            </svg>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="cart-table-remove">
+                            <a class="remove_item body4" title="Remove item" href="/cart/change?line=1&amp;quantity=0" data-id="">Remove</a>
+                        </div>
+                    </div>
+                    <div class="cart-table-lineprice">
+                        <span class="money button">{{ item.line_price | money }}</span>
+                    </div>
+                </div>
+              {% endfor %}
+            </div>
+        </form>
+          <!--cart table end here-->
+          <!--total box start here-->
+          <div class="total-box">
+              <div class="price-total-box mt-20">
+                  <span>Subtotal</span>
+                  <span>{{ cart.total_price | money }}</span>
+                  <a href="/checkout" class="add-to-cart-btn mt-20">Check out</a>
+              </div>
+              <p class="mt-10">Shipping, Taxes, and Discounts calculated at checkout.</p>
+          </div>
+          <!--total box end here-->
+          <!--cart table content start here-->
+        {% else %}
+          <div class="min-cart-no-items">your shopping bag is currently empty</div>
+        {% endif %}
+    </div>
+</section>
+
+{% schema %}
+  {
+    "name": "Cart",
+    "settings": [
+      {
+        "type": "text",
+        "id": "heading",
+        "label": "Heading"
+      }
+    ]
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

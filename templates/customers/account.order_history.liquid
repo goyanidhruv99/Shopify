@@ -1,0 +1,81 @@
+<div class="account-info">
+    <h3>Account Info</h3>
+    <div class="container">
+        <div class="account-grid">
+            <div class="account-nav">
+                <h4 class="mb-40">{{ customer.name }}</h4>
+                <ul>
+                    <li>
+                        <a href="/account">My Account</a>
+                    </li>
+                    <li>
+                        <a href="/account/addresses">shipping addresses</a>
+                    </li>
+                    <li>
+                        <a href="/account?view=order_history" class="active">purchase history</a>
+                    </li>
+                    {% if customer %}<li>{{ 'layout.customer.log_out' | t | customer_logout_link }}</li>{% endif %}
+                </ul>
+            </div>
+            <div class="account-dec">
+              {% paginate customer.orders by 20 %}
+              {% if customer.orders.size != 0 %}
+                <div class="purchase-hestory-tbl">
+                    <!--table title start here-->
+                    <div class="table-title">
+                        <p class="subheader3 title-order">ORDER</p>
+                        <p class="subheader3 title-date"> date</p>
+                        <p class="subheader3 title-product">Product</p>
+                        <p class="subheader3 title-payment">payment</p>
+                        <p class="subheader3 title-status">status</p>
+                        <p class="subheader3 title-total">Total</p>
+                    </div>
+                    <!--table title end here-->
+                    <!--table content start here-->
+                    {% for order in customer.orders %}
+                    <div class="table-content">
+                        <div class="cart-table-order">
+                            <label class="subheader3">ORDER</label>
+                            <a class="body">{{ order.name | link_to: order.customer_url }}</a>
+                        </div>
+                        <div class="cart-table-date">
+                            <label class="subheader3">date</label>
+                            {{ order.created_at | date: " %d-%m-%Y"}}
+                        </div>
+                        <div class="cart-table-product-name body">
+                            <label class="subheader3">PRODUCT</label>
+                            {% for line_item in order.line_items %}{{ line_item.title }}{% endfor %}
+                        </div>
+                        <div class="cart-table-payment body">
+                            <label class="subheader3">PAYMENT</label>
+                            {{ order.financial_status_label }}
+                        </div>
+                        <div class="cart-table-status body">
+                            <label class="subheader3">STATUS</label>
+                            {{ order.fulfillment_status_label }}
+                        </div>
+                        <div class="cart-table-total body">
+                            <label class="subheader3">TOTAL</label>
+                            {{ order.total_price | money }}
+                        </div>
+                    </div>
+                    {% endfor %}
+                    <!--table content end here-->
+                </div>
+                {% else %}
+
+                <p>{{ 'customer.orders.none' | t }}</p>
+      
+                {% endif %}
+      
+                {% if paginate.pages > 1 %}
+                <div class="text-center">
+                  {% include 'pagination-custom' %}
+                </div>
+                {% endif %}
+      
+                {% endpaginate %}
+            </div>
+        </div>
+    </div>
+</div>

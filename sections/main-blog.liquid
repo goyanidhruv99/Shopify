@@ -1,0 +1,35 @@
+<section class="blog-collection-section">
+  <div class="container">
+    <div class="blog-collection-row">
+      {% for article in blog.articles %}
+        <div class="blog-collection-col">
+          <a href="{{ article.url }}">
+            {% if article.image != blank %}
+            <div class="blog-collection-image">
+              <img src="{{ article.image | img_url: 'master' }}" alt="{{ article.image.alt }}">
+            </div>
+            {% endif %}
+            {% if article.title != blank %}
+              <div class="blog-collection-content">
+                <h2>{{ article.title }}</h2>
+              </div>
+            {% endif %}
+          </a>
+        </div>
+      {% endfor %} 
+    </div>
+  </div>
+</section>
+
+{% schema %}
+  {
+    "name": "Section name",
+    "settings": []
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

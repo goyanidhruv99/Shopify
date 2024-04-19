@@ -1,0 +1,25 @@
+<section sn="main-article" class="blog-section">
+    <div class="container">
+        <div class="blog-content">
+            <div class="blog-image">
+              <img src="{{ article.image | img_url: 'master' }}" alt="{{ article.image.alt }}">
+            </div>
+            <h2>{{ article.title }}</h2>
+            {{ article.content }}
+        </div>
+    </div>
+</section>
+
+
+{% schema %}
+  {
+    "name": "Section name",
+    "settings": []
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

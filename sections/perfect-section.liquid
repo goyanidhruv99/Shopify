@@ -1,0 +1,123 @@
+<section sn="perfect-section" class="bs-first-section-wrapper home-first">
+    <div class="container-lg">
+        <div class="bs-first-section">
+            <div class="circle-block">
+              {% if section.settings.cup_image != blank %}
+                <img src="{{ section.settings.cup_image | img_url: 'master' }}" loading="lazy" alt="{{ section.settings.cup_image.alt }}" class="mobile-only cirkle-mobile" />
+              {% endif %}
+                <div class="circle-content">
+                    <div class="c-content">
+                      {% if section.settings.heading != blank %}
+                        <div class="c-title">{{ section.settings.heading }}</div>
+                      {% endif %}
+                      {% if section.settings.description != blank %}
+                        {{ section.settings.description }}
+                      {% endif %}
+                      {% if section.settings.cup_image != blank %}
+                        <img src="{{ section.settings.cup_image | img_url: 'master' }}" loading="lazy" alt="{{ section.settings.cup_image.alt }}" class="desk-only" />
+                      {% endif %}
+                    </div>
+                </div>
+            </div>
+            <div class="bs-first-product-block">
+              {% if section.settings.product_heading != blank %}
+                <div class="bs-first-title text-center">
+                    {{ section.settings.product_heading }}
+                </div>
+              {% endif %}
+              {% if section.settings.producr_list != blank %}
+                <div class="bs-first-product-grid">
+                  {% for product in section.settings.producr_list %}
+                    <div class="product-card {% cycle "", "", "mobile-only", "mobile-only" %}">
+                        <a href="{{ product.url }}">
+                            <div class="product-image">
+                                <img src="{{ product.featured_image | img_url: 'master' }}" loading="lazy" alt="{{ product.images.alt }}" />
+                            </div>
+                            <div class="product-dec">
+                                <div class="product-dec-top">
+                                  {% if product.title != blank %}
+                                    <div class="product-title">{{ product.title }} <span class="sub">250lb</span></div>
+                                  {% endif %}
+                                  {% if product.tags != blank %}
+                                    {% for tag in product.tags %}
+                                      {% if tag contains "__flavour__" %}
+                                        <p>{{ tag | replace: '__flavour__', '' | replace: '_', ' ' | replace: '-', ', ' }}</p>
+                                      {% endif %}
+                                    {% endfor %}
+                                  {% endif %}
+                                </div>
+                                {% if product.price != blank %}
+                                  <div class="p-price">{{ product.price | money_without_trailing_zeros }}</div>
+                                {% endif %}
+                            </div>
+                        </a>
+                    </div>
+                  {% endfor %}
+                </div>
+              {% endif %}
+              {% if section.settings.button != blank %}
+                <a href="/collections" class="link-btn">
+                    <svg width="19" height="14" viewBox="0 0 19 14" fill="none"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <g id="arrow">
+                            <path id="Path 8" d="M0 7H18" stroke="#C05826" />
+                            <path id="Path 9" d="M12 1L18 7L12 13" stroke="#C05826" />
+                        </g>
+                    </svg>
+                    {{ section.settings.button }}
+                </a>
+              {% endif %}
+            </div>
+        </div>
+    </div>
+</section>
+
+{% schema %}
+  {
+    "name": "Perfect Section",
+    "settings": [
+      {
+        "type": "text",
+        "id": "heading",
+        "label": "Main Heading"
+      },
+      {
+        "type": "textarea",
+        "id": "description",
+        "label": "Description"
+      },
+      {
+        "type": "image_picker",
+        "id": "cup_image",
+        "label": "Cup Image"
+      },
+      {
+        "type": "text",
+        "id": "product_heading",
+        "label": "Product Heading"
+      },
+      {
+        "type": "product_list",
+        "id": "producr_list",
+        "label": "Choose Product",
+        "limit": 4
+      },
+      {
+        "type": "text",
+        "id": "button",
+        "label": "Button"
+      }
+    ],
+    "presets": [
+      {
+        "name": "Perfect Section"
+      }
+    ]
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

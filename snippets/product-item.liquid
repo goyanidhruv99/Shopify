@@ -1,0 +1,35 @@
+<div class="bs-second-pro-item">
+    <div class="product-card">
+        <a href={{ product.url }}>
+            <div class="product-image">
+                <img src="{{ product.featured_image | img_url: 'master' }}" loading="lazy" alt="{{ product.featured_image.alt }}">
+            </div>
+            <div class="product-dec">
+                <div class="product-dec-top">
+                  {% if product.title != blank %}
+                    <div class="product-title">{{ product.title }} {% if hidethisdiv == true %} <span class="sub">250lb</span> {% endif %} </div>
+                  {% endif %}
+                  {% if product.tags != blank %}
+                    {% if hidethisdiv == true %}
+                      {% for tag in product.tags %}
+                        {% if tag contains "__flavour__" %}
+                          <div class="small-tagline">{{ tag | replace: '__flavour__', '' | replace: '_', ' ' | replace: '-', ', ' }}</div>
+                        {% endif %}
+                      {% endfor %}
+                    {% endif %}
+                  {% endif %}
+                  {% if product.description != blank %}
+                    {% if hidethisdiv == true %}
+                      <div class="product-description">
+                        <p>{{ product.description }}</p>
+                      </div>
+                    {% endif %}
+                  {% endif %}
+                </div>
+                {% if product.price != blank %}
+                  <div class="p-price">{{ product.price | money }}</div>
+                {% endif %}
+            </div>
+        </a>
+    </div>
+</div>
